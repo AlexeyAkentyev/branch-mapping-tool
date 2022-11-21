@@ -1,0 +1,48 @@
+= Branch mapping tool
+:toc:
+:toc-title: {empty}
+:toc-placement: preamble
+:toclevels: 2
+:doc-dir-root: ./doc
+
+The purpose of the tool is to handle dynamic mapping between application and related repos via branch mapping.
+E.g. mapping between main application repo and infra repo, application repo and end-to-end tests etc
+
+== Tools
+
+* https://www.oracle.com/java/technologies/[JDK 11]
+* https://spring.io/projects/spring-boot[Spring Boot]
+* https://gradle.org/[Gradle]
+* https://sonarcloud.io[SonarQube]
+* Google Cloud[https://cloud.google.com]
+** Cloud Build
+** App Engine
+** Datastore
+** Secret Manager
+
+== API
+
+Demo host: TBD
+
+Get all mappings
+[source]
+
+----
+curl --location --request POST 'https://{APP_HOST}/api/v1/branch-connection' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "type": "CI",
+    "application": "beApp",
+    "applicationBranch": "/master",
+    "connectedBranch": "/release",
+    "isDefault": true,
+    "comment": "The default beApp branch"
+}'
+----
+
+Create new mapping
+[source]
+
+----
+curl --location --request GET 'https://{APP_HOST}/api/v1/branch-connections'
+----

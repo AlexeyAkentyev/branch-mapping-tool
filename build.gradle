@@ -1,0 +1,71 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.google.cloud.tools.appengine' version '2.4.4'
+    id "org.sonarqube" version "3.5.0.2730"
+}
+
+group 'org.aa.branch.mapping'
+version '0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+appengine {
+    deploy {
+        stopPreviousVersion = true
+        promote = true
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "AlexeyAkentyev_branch-mapping-tool"
+        property "sonar.organization", "alexeyakentyev"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
+test {
+    useJUnitPlatform()
+    includes = ['org/aa/branch/mapping/unit/*Spec*']
+}
+
+task apiTest(type: Test) {
+    mustRunAfter tasks.getByName('testClasses')
+
+    useJUnitPlatform()
+    includes = ['org/aa/branch/mapping/api/*Spec*']
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.5'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.cloud:google-cloud-datastore:2.12.5'
+
+    testImplementation 'org.codehaus.groovy:groovy-all:3.0.13'
+    testImplementation 'org.codehaus.groovy:groovy:3.0.13'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+    testImplementation 'org.spockframework:spock-spring:2.3-groovy-3.0'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured:4.5.1'
+}
+
+ext {
+    springCloudVersion = "Hoxton.SR10"
+    set('log4j2.version', '2.17.1')
+}
+
+tasks.named('wrapper', Wrapper) {
+    it.distributionType = Wrapper.DistributionType.ALL
+    it.gradleVersion = '7.5.1'
+}
