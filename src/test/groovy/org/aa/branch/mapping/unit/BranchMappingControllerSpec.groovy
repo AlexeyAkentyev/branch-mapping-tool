@@ -3,18 +3,22 @@ package org.aa.branch.mapping.unit
 import com.google.cloud.datastore.testing.LocalDatastoreHelper
 import org.aa.branch.mapping.BranchConnectionBuilder
 import org.aa.branch.mapping.BranchMappingController
+import org.spockframework.spring.EnableSharedInjection
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
+import spock.lang.Shared
 import spock.lang.Specification
 
 @SpringBootTest
+@EnableSharedInjection
 @ContextConfiguration(classes = [BranchMappingControllerTestConfiguration, BranchMappingDataStoreTestConfiguration])
 class BranchMappingControllerSpec extends Specification {
 
     @Autowired
     private BranchMappingController branchMappingController
 
+    @Shared
     @Autowired
     private LocalDatastoreHelper localDatastoreHelper
 
@@ -86,5 +90,9 @@ class BranchMappingControllerSpec extends Specification {
 
         then:
         actualBranchConnections.isEmpty()
+    }
+
+    void cleanupSpec() {
+        localDatastoreHelper.stop()
     }
 }
