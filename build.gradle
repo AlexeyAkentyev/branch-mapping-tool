@@ -5,10 +5,23 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.google.cloud.tools.appengine' version '2.4.4'
     id "org.sonarqube" version "3.5.0.2730"
+    id 'jacoco'
 }
 
 group 'org.aa.branch.mapping'
 version '0.1-SNAPSHOT'
+
+ext {
+    springCloudVersion = "Hoxton.SR10"
+    set('log4j2.version', '2.17.1')
+}
+
+/**
+ * System properties which are used by 'apiTest' task on their initialization by Gradle.
+ */
+ext.staticSystemProperties = [
+        'api.tests.env.url': System.getProperty('api.tests.env.url'),
+]
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -25,6 +38,20 @@ appengine {
     }
 }
 
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+    includes = ['org/aa/branch/mapping/unit/*Spec*']
+}
+
+task apiTest(type: Test) {
+    mustRunAfter tasks.getByName('testClasses')
+
+    useJUnitPlatform()
+    systemProperties(project.ext.get('staticSystemProperties'))
+    includes = ['org/aa/branch/mapping/api/*Spec*']
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "AlexeyAkentyev_branch-mapping-tool"
@@ -33,16 +60,16 @@ sonarqube {
     }
 }
 
-test {
-    useJUnitPlatform()
-    includes = ['org/aa/branch/mapping/unit/*Spec*']
+jacoco {
+    toolVersion = "0.8.8"
 }
 
-task apiTest(type: Test) {
-    mustRunAfter tasks.getByName('testClasses')
-
-    useJUnitPlatform()
-    includes = ['org/aa/branch/mapping/api/*Spec*']
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled true
+    }
+    dependsOn test
 }
 
 dependencies {
@@ -58,11 +85,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.23.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:4.5.1'
-}
-
-ext {
-    springCloudVersion = "Hoxton.SR10"
-    set('log4j2.version', '2.17.1')
+    testImplementation 'com.devskiller:jfairy:0.6.5'
 }
 
 tasks.named('wrapper', Wrapper) {

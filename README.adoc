@@ -14,7 +14,7 @@ E.g. mapping between main application repo and infra repo, application repo and 
 * https://spring.io/projects/spring-boot[Spring Boot]
 * https://gradle.org/[Gradle]
 * https://sonarcloud.io[SonarQube]
-* Google Cloud[https://cloud.google.com]
+* https://cloud.google.com[Google Cloud]
 ** Cloud Build
 ** App Engine
 ** Datastore

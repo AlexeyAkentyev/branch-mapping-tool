@@ -22,7 +22,7 @@ class BranchMappingControllerSpec extends Specification {
     @Autowired
     private LocalDatastoreHelper localDatastoreHelper
 
-    private validDefaultBranchConnection = new BranchConnectionBuilder()
+    private validDefaultBranchMapping = new BranchConnectionBuilder()
             .setType("ci")
             .setApplication("beApp")
             .setApplicationBranch("/master")
@@ -31,7 +31,7 @@ class BranchMappingControllerSpec extends Specification {
             .setComment("This is default CI mapping for release branch")
             .createBranchConnection()
 
-    private validBranchConnection = new BranchConnectionBuilder()
+    private validBranchMapping = new BranchConnectionBuilder()
             .setType("ci")
             .setApplication("beApp")
             .setApplicationBranch("/feature-branch")
@@ -45,45 +45,45 @@ class BranchMappingControllerSpec extends Specification {
 
     def "Validate adding default branch of the Application"() {
         when:
-        branchMappingController.addBranchConnection(validDefaultBranchConnection);
+        branchMappingController.addBranchConnection(validDefaultBranchMapping);
 
         and:
         def actualBranchConnections = branchMappingController.getBranchConnections()
 
         then:
-        actualBranchConnections == [validDefaultBranchConnection]
+        actualBranchConnections == [validDefaultBranchMapping]
     }
 
     def "Validate adding the same default branch of the Application"() {
         when:
-        branchMappingController.addBranchConnection(validDefaultBranchConnection);
-        branchMappingController.addBranchConnection(validDefaultBranchConnection);
+        branchMappingController.addBranchConnection(validDefaultBranchMapping);
+        branchMappingController.addBranchConnection(validDefaultBranchMapping);
 
         and:
         def actualBranchConnections = branchMappingController.getBranchConnections()
 
         then:
-        actualBranchConnections == [validDefaultBranchConnection]
+        actualBranchConnections == [validDefaultBranchMapping]
     }
 
     def "Validate replacing default branch of the Application"() {
         when:
-        branchMappingController.addBranchConnection(validDefaultBranchConnection);
+        branchMappingController.addBranchConnection(validDefaultBranchMapping);
 
         and:
-        validDefaultBranchConnection.setConnectedBranch("/RC/feature")
-        branchMappingController.addBranchConnection(validDefaultBranchConnection);
+        validDefaultBranchMapping.setConnectedBranch("/RC/feature")
+        branchMappingController.addBranchConnection(validDefaultBranchMapping);
 
         and:
         def actualBranchConnections = branchMappingController.getBranchConnections()
 
         then:
-        actualBranchConnections == [validDefaultBranchConnection]
+        actualBranchConnections == [validDefaultBranchMapping]
     }
 
     def "Validate adding not default branch Application without default Branch"() {
         when:
-        branchMappingController.addBranchConnection(validBranchConnection);
+        branchMappingController.addBranchConnection(validBranchMapping);
 
         and:
         def actualBranchConnections = branchMappingController.getBranchConnections()
