@@ -12,7 +12,7 @@ group 'org.aa.branch.mapping'
 version '0.1-SNAPSHOT'
 
 ext {
-    springCloudVersion = "Hoxton.SR10"
+    springCloudVersion = "Hoxton.SR12"
     set('log4j2.version', '2.17.1')
 }
 
@@ -80,9 +80,9 @@ jacocoTestReport {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.5'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'com.google.cloud:google-cloud-datastore:2.12.5'
 
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.13'
