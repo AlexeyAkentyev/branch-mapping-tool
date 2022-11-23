@@ -5,6 +5,8 @@
 :toclevels: 2
 :doc-dir-root: ./doc
 
+image:https://sonarcloud.io/api/project_badges/measure?project=AlexeyAkentyev_branch-mapping-tool&metric=alert_status["Quality Gate Status",https://sonarcloud.io/summary/new_code?id=AlexeyAkentyev_branch-mapping-tool] image:https://sonarcloud.io/api/project_badges/measure?project=AlexeyAkentyev_branch-mapping-tool&metric=coverage["Coverage",https://sonarcloud.io/summary/new_code?id=AlexeyAkentyev_branch-mapping-tool]
+
 The purpose of the tool is to handle dynamic mapping between application and related repos via branch mapping.
 E.g. mapping between main application repo and infra repo, application repo and end-to-end tests etc
 
