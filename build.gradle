@@ -57,6 +57,7 @@ sonarqube {
         property "sonar.projectKey", "AlexeyAkentyev_branch-mapping-tool"
         property "sonar.organization", "alexeyakentyev"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.exclusions", "**/BranchConnection.*, **/BranchConnectionBuilder.*"
     }
 }
 
@@ -69,7 +70,12 @@ jacocoTestReport {
     reports {
         xml.enabled true
     }
-    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['**/BranchConnection.*', '**/BranchConnectionBuilder.*'])
+        }))
+    }
 }
 
 dependencies {
