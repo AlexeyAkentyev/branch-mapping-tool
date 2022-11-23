@@ -68,11 +68,11 @@ class BranchMappingControllerSpec extends Specification {
 
     def "Validate replacing default branch of the Application"() {
         when:
-        branchMappingController.addBranchConnection(validDefaultBranchMapping);
+        branchMappingController.addBranchConnection(validDefaultBranchMapping)
 
         and:
         validDefaultBranchMapping.setConnectedBranch("/RC/feature")
-        branchMappingController.addBranchConnection(validDefaultBranchMapping);
+        branchMappingController.addBranchConnection(validDefaultBranchMapping)
 
         and:
         def actualBranchConnections = branchMappingController.getBranchConnections()
@@ -83,7 +83,7 @@ class BranchMappingControllerSpec extends Specification {
 
     def "Validate adding not default branch Application without default Branch"() {
         when:
-        branchMappingController.addBranchConnection(validBranchMapping);
+        branchMappingController.addBranchConnection(validBranchMapping)
 
         and:
         def actualBranchConnections = branchMappingController.getBranchConnections()
