@@ -1,0 +1,26 @@
+steps:
+  - name: gradle:7.5.1-jdk11
+    id: unit-tests
+    entrypoint: gradle
+    args: [ 'test' ]
+  - name: gradle:7.5.1-jdk11
+    id: static-analysis
+    entrypoint: bash
+    args: [ '-c', 'gradle sonar -Dsonar.login=$$SONAR_TOKEN -Dsonar.branch.name=$BRANCH_NAME' ]
+    secretEnv: [ 'SONAR_TOKEN' ]
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: deploy
+    entrypoint: 'bash'
+    args: [ '-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy' ]
+  - name: gradle:7.5.1-jdk11
+    id: api-tests
+    entrypoint: bash
+    args: [ '-c', 'gradle apiTest -Dapi.tests.env.url=$$APP' ]
+    secretEnv: [ 'APP' ]
+availableSecrets:
+  secretManager:
+    - versionName: projects/285597022882/secrets/SONAR_TOKEN/versions/1
+      env: 'SONAR_TOKEN'
+    - versionName: projects/285597022882/secrets/APP-SERVICE-DOMAIN/versions/2
+      env: 'APP'
+timeout: '1600s'
