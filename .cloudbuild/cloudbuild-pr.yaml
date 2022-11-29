@@ -3,19 +3,23 @@ steps:
     id: unit-tests
     entrypoint: gradle
     args: [ 'test' ]
+    waitFor: [ '-' ]
   - name: gradle:7.5.1-jdk11
     id: static-analysis-sonar
     entrypoint: bash
     args: [ '-c', 'gradle sonar -Dsonar.login=$$SONAR_TOKEN -Dsonar.pullrequest.key=$_PR_NUMBER -Dsonar.pullrequest.branch=$_HEAD_BRANCH -Dsonar.pullrequest.base=$_BASE_BRANCH' ]
     secretEnv: [ 'SONAR_TOKEN' ]
+    waitFor: [ 'unit-tests' ]
   - name: gradle:7.5.1-jdk11
     id: static-analysis-groovy-codenarc
     entrypoint: bash
     args: [ '-c', 'gradle codenarcTest' ]
+    waitFor: [ '-' ]
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: deploy
     entrypoint: 'bash'
     args: [ '-c', 'gcloud config set app/cloud_build_timeout 1600 && gcloud app deploy' ]
+    waitFor: [ 'static-analysis-sonar', 'static-analysis-groovy-codenarc' ]
   - name: gradle:7.5.1-jdk11
     id: api-tests
     entrypoint: bash
