@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class BranchMappingDataStoreTestConfiguration {
 
+    @SuppressWarnings('NoDouble')
     public static final double DATASTORE_TEST_CONSISTENCY = 1.0
 
     private LocalDatastoreHelper localDatastoreHelper

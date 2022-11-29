@@ -4,10 +4,14 @@ steps:
     entrypoint: gradle
     args: [ 'test' ]
   - name: gradle:7.5.1-jdk11
-    id: static-analysis
+    id: static-analysis-sonar
     entrypoint: bash
     args: [ '-c', 'gradle sonar -Dsonar.login=$$SONAR_TOKEN -Dsonar.pullrequest.key=$_PR_NUMBER -Dsonar.pullrequest.branch=$_HEAD_BRANCH -Dsonar.pullrequest.base=$_BASE_BRANCH' ]
     secretEnv: [ 'SONAR_TOKEN' ]
+  - name: gradle:7.5.1-jdk11
+    id: static-analysis-groovy-codenarc
+    entrypoint: bash
+    args: [ '-c', 'gradle codenarcTest' ]
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: deploy
     entrypoint: 'bash'
