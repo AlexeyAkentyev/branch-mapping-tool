@@ -4,34 +4,35 @@ import com.devskiller.jfairy.Fairy
 import com.devskiller.jfairy.producer.BaseProducer
 import io.restassured.http.ContentType
 import io.restassured.specification.RequestSpecification
+import org.aa.branch.mapping.BranchConnection
 import org.aa.branch.mapping.BranchConnectionBuilder
 import org.apache.http.HttpStatus
 
 class BranchMappingToolSpec extends BaseConfiguration {
     private static final String CREATE_UPDATE_REQUEST_PATH = '/api/v1/branch-connection'
 
-    private BaseProducer producer = Fairy.create().baseProducer()
-    private type = producer.letterify('type-????')
-    private application = producer.letterify('Application-?????')
+    private final BaseProducer producer = Fairy.create().baseProducer()
+    private final String type = producer.letterify('type-????')
+    private final String application = producer.letterify('Application-?????')
 
-    private RequestSpecification requestSpec = getBaseRequestSpec()
+    private final RequestSpecification requestSpec = baseRequestSpec
 
-    private validDefaultBranchMapping = new BranchConnectionBuilder()
+    private final BranchConnection validDefaultBranchMapping = new BranchConnectionBuilder()
             .setType(type)
             .setApplication(application)
-            .setApplicationBranch("/master")
-            .setConnectedBranch("/release")
+            .setApplicationBranch('/master')
+            .setConnectedBranch('/release')
             .setIsDefault(true)
-            .setComment("This is default CI mapping for release branch")
+            .setComment('This is default CI mapping for release branch')
             .createBranchConnection()
 
-    private validBranchMapping = new BranchConnectionBuilder()
+    private final BranchConnection validBranchMapping = new BranchConnectionBuilder()
             .setType(producer.letterify('test-type-????'))
             .setApplication(producer.letterify('test-Application-?????'))
-            .setApplicationBranch("/master")
-            .setConnectedBranch("/release")
+            .setApplicationBranch('/master')
+            .setConnectedBranch('/release')
             .setIsDefault(false)
-            .setComment("This is default CI mapping for release branch")
+            .setComment('This is default CI mapping for release branch')
             .createBranchConnection()
 
     def 'Create new default branch mapping'() {

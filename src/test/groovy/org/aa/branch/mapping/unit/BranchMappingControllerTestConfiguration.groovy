@@ -16,13 +16,13 @@ class BranchMappingControllerTestConfiguration {
     private LocalDatastoreHelper localDatastoreHelper
 
     @Bean
-    BranchMappingController getBookmarksController() {
+    BranchMappingController getBranchController() {
         new BranchMappingController(datastore)
     }
 
     @Bean
     Datastore getDatastore() {
-        datastore = localDatastoreHelper.getOptions().getService()
+        datastore = localDatastoreHelper.options.service
 
         datastore
     }
