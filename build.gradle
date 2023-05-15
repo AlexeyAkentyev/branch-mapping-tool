@@ -86,7 +86,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'com.google.cloud:google-cloud-datastore:2.12.5'
+    implementation 'com.google.cloud:google-cloud-datastore:2.14.6'
 
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.13'
     testImplementation 'org.codehaus.groovy:groovy:3.0.13'
