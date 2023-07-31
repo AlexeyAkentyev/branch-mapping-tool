@@ -98,7 +98,7 @@ dependencies {
     testImplementation 'com.devskiller:jfairy:0.6.5'
     testImplementation 'org.apache.commons:commons-text:1.10.0'
 
-    codenarc 'org.codenarc:CodeNarc:3.1.0'
+    codenarc 'org.codenarc:CodeNarc:3.3.0-groovy-4.0'
 }
 
 tasks.named('wrapper', Wrapper) {
